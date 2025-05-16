@@ -1,6 +1,29 @@
 phpRedisAdmin
 =============
 
+增加`max_tree_num`配置项,可配置tree节点最多显示key的数量, 防止线上key数量太多导致hang住
+
+![Screenshot_20250516_153546.png](Screenshot_20250516_153546.png)
+```diff
+function print_namespace($item, $name, $fullkey, $islast) {
+      global $config, $server, $redis;
++      if (count($item) > $config['max_tree_num']) {
++        $is_morre = '/' . count($item);
++        $item = array_slice($item, 0, $config['max_tree_num']);
++      } else {
++        $is_morre = '';
++      }
+
+-        <a href="?view&amp;s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;key=<?php echo urlencode($fullkey)?>" title="<?php echo format_html($name)?>"><?php echo format_html($name)?><?php if ($len !== false) { ?><span class="info">(<?php echo $len?>)</span><?php } ?></a>
++        <a href="?view&amp;s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;key=<?php echo urlencode($fullkey)?>" title="<?php echo format_html($name)?>"><?php echo format_html($name)?><?php if ($len !== false) { ?><span class="info">(<?php echo $len . $is_morre?>)</span><?php } ?></a>
+
+-<div class="icon"><?php echo format_html($name)?>&nbsp;<span class="info">(<?php echo count($item)?>)</span>
++<div class="icon"><?php echo format_html($name)?>&nbsp;<span class="info">(<?php echo count($item) . $is_morre?>)</span>
+```
+
+=============
+
+
 phpRedisAdmin is a simple web interface to manage [Redis](http://redis.io/)
 databases. It is released under the
 [Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
@@ -58,7 +81,7 @@ Environment variables summary
 * ``REDIS_1_SCHEME`` - define scheme of the Redis server (tcp or tls)
 * ``REDIS_1_AUTH`` - define password of the Redis server
 * ``REDIS_1_AUTH_FILE`` - define file containing the password of the Redis server
-* ``REDIS_1_DATABASES`` - You can modify you config to prevent phpRedisAdmin from using CONFIG command 
+* ``REDIS_1_DATABASES`` - You can modify you config to prevent phpRedisAdmin from using CONFIG command
 * ``ADMIN_USER`` - define username for user-facing Basic Auth
 * ``ADMIN_PASS`` - define password for user-facing Basic Auth
 
