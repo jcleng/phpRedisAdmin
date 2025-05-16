@@ -66,7 +66,7 @@ if($redis) {
       global $config, $server, $redis;
       if (count($item) > $config['max_tree_num']) {
         $is_morre = '/' . count($item);
-        $item = array_slice($item, 0, 20);
+        $item = array_slice($item, 0, $config['max_tree_num']);
       } else {
         $is_morre = '';
       }
