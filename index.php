@@ -64,7 +64,12 @@ if($redis) {
     // Recursive function used to print the namespaces.
     function print_namespace($item, $name, $fullkey, $islast) {
       global $config, $server, $redis;
-
+      if (count($item) > $config['max_tree_num']) {
+        $is_morre = '/' . count($item);
+        $item = array_slice($item, 0, 20);
+      } else {
+        $is_morre = '';
+      }
       // Is this also a key and not just a namespace?
       if (isset($item['__phpredisadmin__'])) {
         // Unset it so we won't loop over it when printing this namespace.
@@ -115,7 +120,7 @@ if($redis) {
         ?>
         <li<?php echo empty($class) ? '' : ' class="'.implode(' ', $class).'"'?>>
         <input type="checkbox" name="checked_keys" value="<?php echo format_html($fullkey)?>"/>
-        <a href="?view&amp;s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;key=<?php echo urlencode($fullkey)?>" title="<?php echo format_html($name)?>"><?php echo format_html($name)?><?php if ($len !== false) { ?><span class="info">(<?php echo $len?>)</span><?php } ?></a>
+        <a href="?view&amp;s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;key=<?php echo urlencode($fullkey)?>" title="<?php echo format_html($name)?>"><?php echo format_html($name)?><?php if ($len !== false) { ?><span class="info">(<?php echo $len . $is_morre?>)</span><?php } ?></a>
         </li>
         <?php
       }
@@ -124,7 +129,7 @@ if($redis) {
       if (count($item) > 0) {
         ?>
         <li class="folder<?php echo ($fullkey === '') ? '' : ' collapsed'?><?php echo $islast ? ' last' : ''?>">
-        <div class="icon"><?php echo format_html($name)?>&nbsp;<span class="info">(<?php echo count($item)?>)</span>
+        <div class="icon"><?php echo format_html($name)?>&nbsp;<span class="info">(<?php echo count($item) . $is_morre?>)</span>
         <?php if ($fullkey !== '') { ?><a href="delete.php?s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;tree=<?php echo urlencode($fullkey).$server['seperator']?>" class="deltree"><img src="images/delete.png" width="10" height="10" title="Delete tree" alt="[X]"></a><?php } ?>
         </div><ul>
         <?php

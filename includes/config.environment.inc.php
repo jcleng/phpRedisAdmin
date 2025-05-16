@@ -14,6 +14,8 @@ $config['scansize']                = getenv('SCAN_SIZE')                   ?: 10
 $config['scanmax']                 = getenv('SCAN_MAX')                    ?: 1000;
 $config['seperator']               = getenv('SEPERATOR')                   ?: ':';
 $config['showEmptyNamespaceAsKey'] = getenv('SHOW_EMPTY_NAMESPACE_AS_KEY') ?: false;
+// 新增树形结构最大显示数据数量
+$config['max_tree_num']            = getenv('MAX_TREE_NUM')                ?: 20;
 
 $admin_user = getenv('ADMIN_USER');
 $admin_pass = getenv('ADMIN_PASS');
