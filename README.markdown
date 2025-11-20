@@ -21,6 +21,48 @@ function print_namespace($item, $name, $fullkey, $islast) {
 +<div class="icon"><?php echo format_html($name)?>&nbsp;<span class="info">(<?php echo count($item) . $is_morre?>)</span>
 ```
 
+### 使用
+
+```yml
+  redisadmin:
+    image: registry.cn-hangzhou.aliyuncs.com/jcleng/phpredisadmin
+    privileged: true
+    ports:
+    - 6380:80
+    volumes:
+      - "./config.redis.php:/src/app/includes/config.inc.php"
+```
+
+- `config.redis.php`
+
+```php
+<?php
+include 'config.sample.inc.php';
+$config['servers'] = array();
+//
+$config['servers'][] = array(
+    'name' => 'local_redis',
+    'host' => 'redis',
+    'port' => '6379',
+    'auth' => null
+);
+$config['servers'][] = array(
+    'name' => 'server_redis',
+    'host' => '47.1.1.74',
+    'port' => '6379',
+    'auth' => 'password888',
+    'db' => 8
+);
+$config['max_tree_num'] = 10;
+
+$config['login'] = array(
+    'admin888' => array(
+        'password' => 'password888',
+    ),
+);
+
+
+```
 =============
 
 
