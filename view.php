@@ -17,7 +17,7 @@ if (!isset($_GET['key'])) {
   die;
 }
 
-$type   = ''; 
+$type   = '';
 $exists = false;
 try {
   $type   = $redis->type($_GET['key']);
@@ -98,11 +98,11 @@ switch ($type) {
     }
     $size = count($values);
     break;
-    
+
   default:
     $size = -1;
 }
-  
+
 if (isset($values) && ($count_elements_page !== false)) {
   $values = array_slice($values, $count_elements_page * ($page_num_request - 1), $count_elements_page,true);
 }
@@ -119,7 +119,7 @@ if (isset($values) && ($count_elements_page !== false)) {
 <?php } ?>
 
 <tr><td><div>Size:</div></td><td><div>
-<?php 
+<?php
 echo $size;
 
 if ($type === 'string') {
@@ -235,7 +235,7 @@ else if ($type == 'list') { ?>
 <table>
 <tr><th><div>Index</div></th><th><div>Value</div></th><th><div>&nbsp;</div></th><th><div>&nbsp;</div></th></tr>
 
-<?php 
+<?php
   if (($count_elements_page === false) && ($size > $count_elements_page)) {
     $start = 0;
     $end   = $size;
@@ -288,9 +288,10 @@ else if ($type == 'zset') { ?>
 
 <?php foreach ($values as $value) {
   $score         = $redis->zScore($_GET['key'], $value);
+  $scoreIsTime = is_numeric($score) && strlen($score) == 10 ? date('Y-m-d H:i:s', $score) : '';
   $display_value = $redis->exists($value) ? '<a href="view.php?s='.$server['id'].'&d='.$server['db'].'&key='.urlencode($value).'">'.format_html($value).'</a>' : format_html($value);
 ?>
-  <tr <?php echo $alt ? 'class="alt"' : ''?>><td><div><?php echo $score?></div></td><td><div class=data><?php echo $display_value ?></div></td><td><div>
+  <tr <?php echo $alt ? 'class="alt"' : ''?>><td><div title="<?php echo $scoreIsTime?>"><?php echo $score?></div></td><td><div class=data><?php echo $display_value ?></div></td><td><div>
     <a href="edit.php?s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;type=zset&amp;key=<?php echo urlencode($_GET['key'])?>&amp;score=<?php echo $score?>&amp;value=<?php echo urlencode($value)?>"><img src="images/edit.png" width="16" height="16" title="Edit" alt="[E]"></a>
     <a href="delete.php?s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;type=zset&amp;key=<?php echo urlencode($_GET['key'])?>&amp;value=<?php echo urlencode($value)?>" class="delval"><img src="images/delete.png" width="16" height="16" title="Delete" alt="[X]"></a>
   </div></td></tr>
@@ -311,4 +312,3 @@ if (isset($pagination)) {
 }
 
 require 'includes/footer.inc.php';
-

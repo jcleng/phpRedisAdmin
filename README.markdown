@@ -37,6 +37,7 @@ function print_namespace($item, $name, $fullkey, $islast) {
 
 ```php
 <?php
+ini_set('date.timezone', 'Asia/Shanghai');
 include 'config.sample.inc.php';
 $config['servers'] = array();
 //
