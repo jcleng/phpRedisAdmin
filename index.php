@@ -129,7 +129,10 @@ if($redis) {
       if (count($item) > 0) {
         ?>
         <li class="folder<?php echo ($fullkey === '') ? '' : ' collapsed'?><?php echo $islast ? ' last' : ''?>">
-        <div class="icon"><?php echo format_html($name)?>&nbsp;<span class="info">(<?php echo count($item) . $is_morre?>)</span>
+        <div class="icon">
+          <?php echo format_html($name)?>&nbsp;
+          <span class="info">(<?php echo count($item) . $is_morre?>)</span>
+          <a href="?overview&s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;filter=*<?php echo urlencode($fullkey).$server['seperator']?>*" class="filtertree"><img src="images/info.png" width="10" height="10" title="Filter"></a>
         <?php if ($fullkey !== '') { ?><a href="delete.php?s=<?php echo $server['id']?>&amp;d=<?php echo $server['db']?>&amp;tree=<?php echo urlencode($fullkey).$server['seperator']?>" class="deltree"><img src="images/delete.png" width="10" height="10" title="Delete tree" alt="[X]"></a><?php } ?>
         </div><ul>
         <?php
@@ -252,6 +255,7 @@ if ($databases > 1) { ?>
 <p>
 <input type="text" id="server_filter" size="14" value="<?php echo format_html($server['filter']); ?>" placeholder="type here to server filter" class="info">
 <button id="btn_server_filter">Filter!</button>
+<button id="btn_server_reset">Reset!</button>
 </p>
 
 <p>

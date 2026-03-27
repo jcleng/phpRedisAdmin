@@ -93,5 +93,7 @@ $config = array(
   'scansize' => 1000,
 
   // The total number of entries to fetch. Set to 0 or -1 for no limit.
-  'scanmax' => 0
+  'scanmax' => 0,
+  // 最大tree数量
+  'max_tree_num' => 200,
 );

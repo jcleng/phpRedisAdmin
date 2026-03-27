@@ -54,6 +54,9 @@ $(function() {
           }
         });
       }
+    } else if (e.currentTarget.className.indexOf('filtertree') !== -1) {
+      e.preventDefault();
+      top.location.href = e.currentTarget.href;
     } else {
       if (e.currentTarget.href.indexOf('/?') == -1) {
         return;
@@ -128,6 +131,10 @@ $(function() {
 
   $('#btn_server_filter').click(function() {
     var filter = $('#server_filter').val();
+    location.href = top.location.pathname + '?overview&s=' + $('#server').val() + '&d=' + ($('#database').val() || '') + '&filter=' + filter;
+  });
+  $('#btn_server_reset').click(function() {
+    var filter = "*";
     location.href = top.location.pathname + '?overview&s=' + $('#server').val() + '&d=' + ($('#database').val() || '') + '&filter=' + filter;
   });
 
@@ -206,4 +213,3 @@ $(function() {
     $('#resize-layover').css('z-index', 0);
   });
 });
-
