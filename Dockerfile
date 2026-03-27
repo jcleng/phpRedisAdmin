@@ -9,4 +9,4 @@ RUN set -xe; \
 
 ENV PORT 80
 EXPOSE 80
-ENTRYPOINT [ "sh", "-c", "php -S 0.0.0.0:$PORT" ]
+ENTRYPOINT [ "sh", "-c", "PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:$PORT" ]
